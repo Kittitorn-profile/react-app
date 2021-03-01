@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-styled-components"
+    ],
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "babel-plugin-idx"
+    ]
+  ]
+}

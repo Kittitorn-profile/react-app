@@ -1,65 +1,57 @@
-import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import * as moment from "moment";
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div className={styles.layout}>
+      <div className="row justify-content-center">
+        <div className="col-10">
+          <div className="row justify-content-between p-3">
+            <div className="col-7 w-100 p-0">
+              <div>Log Todo List All</div>
+            </div>
+            <div className="col-5 w-100 p-0">
+              <div className="row">
+                <div className="col-5 pr-2 w-100">
+                  <button class="btn btn-outline-secondary w-100" type="button">
+                    Sort by newUpdate
+                  </button>
+                </div>
+                <div className="col-7 pr-2 w-100">
+                  <button class="btn btn-outline-secondary w-100" type="button">
+                    Clear History
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          history to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" colSpan="2">
+                  Todo name
+                </th>
+                <th scope="col" colSpan="1">
+                  DateTime
+                </th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td colSpan="2">Mark</td>
+                <td colSpan="1">{moment().format("DD-MM-YYYY, h:mm:ss")}</td>
+                <td>@mdo</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
