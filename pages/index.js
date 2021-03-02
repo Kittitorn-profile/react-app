@@ -1,14 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { DataContext } from "../context";
-import * as moment from "moment";
-import { values } from "mobx";
 
 const Home = () => {
   const dataContext = useContext(DataContext);
   const [text, setText] = useState("");
+  const [textNew, setTextNew] = useState("");
   const [textSearch, setTextSearch] = useState("");
-  const [lastItem, setLastItem] = useState();
+  const [active, setActive] = useState(false);
 
   const handleSearch = (value) => {
     dataContext.searchStore(value);
@@ -17,6 +16,22 @@ const Home = () => {
 
   const handleRemove = async (id) => {
     await dataContext.remove(id);
+    dataContext.getListAll();
+    location.reload();
+  };
+
+  const handleGetUpdate = async (id) => {
+    await dataContext.getListById(id);
+    setTextNew(dataContext.name);
+    setActive(true);
+  };
+
+  const handleUpdate = async (value) => {
+    await dataContext.updateList(
+      dataContext.id,
+      value,
+      dataContext.create_date
+    );
     dataContext.getListAll();
     location.reload();
   };
@@ -67,7 +82,7 @@ const Home = () => {
                     type="button"
                     onClick={() => handleSearch(textSearch)}
                   >
-                    Search ccc
+                    Search
                   </button>
                 </div>
               </div>
@@ -96,15 +111,6 @@ const Home = () => {
                   Add +
                 </button>
               </div>
-              <div className="col-2 pr-2 w-100">
-                <button
-                  class="btn btn-outline-secondary w-100"
-                  type="button"
-                  onClick={handleClear}
-                >
-                  Clear
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -128,11 +134,59 @@ const Home = () => {
                   dataContext.list.map((i, index) => (
                     <tr>
                       <th scope="row">{i.id}</th>
-                      <td colSpan="4">{i.name}</td>
+                      <td colSpan="4 ">
+                        <div className=" w-100">
+                          {dataContext.id === i.id ? (
+                            <>
+                              {active ? (
+                                <input
+                                  type="email"
+                                  className="form-control w-100"
+                                  id="exampleInputEmail1"
+                                  aria-describedby="emailHelp"
+                                  placeholder="Enter Todo"
+                                  onChange={(e) => setTextNew(e.target.value)}
+                                  value={textNew}
+                                />
+                              ) : (
+                                <div>{i.name}</div>
+                              )}
+                            </>
+                          ) : (
+                            <div>{i.name}</div>
+                          )}
+                        </div>
+                      </td>
                       <td colSpan="1">
-                        <button type="button" className="btn btn-warning">
-                          Edit
-                        </button>
+                        {dataContext.id === i.id ? (
+                          <>
+                            {active ? (
+                              <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={() => handleUpdate(textNew)}
+                              >
+                                Save
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-warning"
+                                onClick={() => handleGetUpdate(i.id)}
+                              >
+                                Edit
+                              </button>
+                            )}
+                          </>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn btn-warning"
+                            onClick={() => handleGetUpdate(i.id)}
+                          >
+                            Edit
+                          </button>
+                        )}
                       </td>
                       <td colSpan="1">
                         <button

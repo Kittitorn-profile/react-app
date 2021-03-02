@@ -72,9 +72,7 @@ const History = () => {
                       </td>
                       <td colSpan="1">
                         {i.update_date
-                          ? update_datemoment(i.update_date).format(
-                              "DD-MM-YYYY, h:mm:ss"
-                            )
+                          ? moment(i.update_date).format("DD-MM-YYYY, h:mm:ss")
                           : "-"}
                       </td>
                       <td>{i.status ? i.status : "-"}</td>

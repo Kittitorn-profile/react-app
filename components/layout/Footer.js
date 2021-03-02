@@ -6,7 +6,7 @@ const AppHeader = (props) => {
 
   return (
     <div className={styles.footer}>
-      <div> Web app</div>
+      <div>By - Kittitorn Sermthaisong</div>
     </div>
   );
 };
