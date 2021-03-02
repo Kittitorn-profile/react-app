@@ -1,7 +1,21 @@
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../styles/Home.module.css";
 import * as moment from "moment";
+import { DataContext } from "../context";
 
-const Home = () => {
+const History = () => {
+  const dataContext = useContext(DataContext);
+
+  const handleClear = () => {
+    dataContext.clearStore();
+    dataContext.getListAll();
+    location.reload();
+  };
+
+  useEffect(() => {
+    dataContext.getListAll();
+  }, []);
+
   return (
     <div className={styles.layout}>
       <div className="row justify-content-center">
@@ -18,7 +32,11 @@ const Home = () => {
                   </button>
                 </div>
                 <div className="col-7 pr-2 w-100">
-                  <button class="btn btn-outline-secondary w-100" type="button">
+                  <button
+                    class="btn btn-outline-secondary w-100"
+                    type="button"
+                    onClick={handleClear}
+                  >
                     Clear History
                   </button>
                 </div>
@@ -34,19 +52,37 @@ const Home = () => {
                   Todo name
                 </th>
                 <th scope="col" colSpan="1">
-                  DateTime
+                  Create Date
+                </th>
+                <th scope="col" colSpan="1">
+                  Update Date
                 </th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td colSpan="2">Mark</td>
-                <td colSpan="1">{moment().format("DD-MM-YYYY, h:mm:ss")}</td>
-                <td>@mdo</td>
-              </tr>
-            </tbody>
+            {dataContext.list && (
+              <tbody>
+                {dataContext.list.length > 0 &&
+                  dataContext.list.map((i, index) => (
+                    <tr>
+                      <th scope="row">{i.id}</th>
+                      <td colSpan="2">{i.name}</td>
+                      <td colSpan="1">
+                        {moment(i.create_date).format("DD-MM-YYYY, h:mm:ss")}
+                      </td>
+                      <td colSpan="1">
+                        {i.update_date
+                          ? update_datemoment(i.update_date).format(
+                              "DD-MM-YYYY, h:mm:ss"
+                            )
+                          : "-"}
+                      </td>
+                      <td>{i.status ? i.status : "-"}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            )}
+            {console.log("dataContext 2", dataContext.listHistory)}
           </table>
         </div>
       </div>
@@ -54,4 +90,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default History;

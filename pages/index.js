@@ -8,32 +8,22 @@ const Home = () => {
   const dataContext = useContext(DataContext);
   const [text, setText] = useState("");
   const [textSearch, setTextSearch] = useState("");
-  const [count, setCount] = useState(0, "count");
 
   const handleSearch = (value) => {
-    console.log("in value", value);
-    let obj = dataContext.list.find((search) => search.name === value);
-    console.log("obj", obj);
+    dataContext.searchStore(value);
   };
 
   const handleRemove = (id) => {
-    console.log("in handleRemove", id);
-    // dataContext.setList(id);
+    dataContext.remove(id);
   };
 
   const handleAdd = (value, id) => {
     if (value) {
       const time = moment().format();
-      dataContext.setList(value, id, time);
-      setCount(count + 1);
+      dataContext.addList(value, id, time);
     }
     setText("");
   };
-
-  React.useEffect(() => {
-    const cc = localStorage.getItem("myData");
-    console.log("cc", cc);
-  }, [dataContext.list]);
 
   return (
     <div className={styles.layout}>
@@ -63,15 +53,27 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="row justify-content-end p-3">
+            <div className="row justify-content-center p-3">
+              <div className="col-10 w-100 pl-0">
+                <input
+                  type="email"
+                  className="form-control w-100"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter Todo"
+                  onChange={(e) => setText(e.target.value)}
+                  value={text}
+                />
+              </div>
               <div className="col-2 w-100 p-0">
                 <button
-                  type="button"
                   className="btn btn-primary w-100 "
-                  data-toggle="modal"
-                  data-target="#exampleModalCenter"
+                  type="button"
+                  onClick={() => {
+                    handleAdd(text, dataContext.list.length);
+                  }}
                 >
-                  Add Todo +
+                  Add +
                 </button>
               </div>
             </div>
@@ -90,86 +92,33 @@ const Home = () => {
                 <th colSpan="1">Delete</th>
               </tr>
             </thead>
-            <tbody>
-              {dataContext &&
-                dataContext.list.map((i, index) => (
-                  <tr>
-                    <th scope="row">{i.id}</th>
-                    <td colSpan="4">{i.name}</td>
-                    <td colSpan="1">
-                      <button type="button" className="btn btn-warning">
-                        Edit
-                      </button>
-                    </td>
-                    <td colSpan="1">
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() => handleRemove(i.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
 
-      <div
-        className="modal fade"
-        id="exampleModalCenter"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLongTitle">
-                Add Todo
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <input
-                type="email"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter todo"
-                onChange={(e) => setText(e.target.value)}
-                value={text}
-              />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={() => {
-                  handleAdd(text, count);
-                }}
-              >
-                Add
-              </button>
-            </div>
-          </div>
+            {dataContext.list && (
+              <tbody>
+                {dataContext.list.length > 0 &&
+                  dataContext.list.map((i, index) => (
+                    <tr>
+                      <th scope="row">{i.id}</th>
+                      <td colSpan="4">{i.name}</td>
+                      <td colSpan="1">
+                        <button type="button" className="btn btn-warning">
+                          Edit
+                        </button>
+                      </td>
+                      <td colSpan="1">
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => dataContext.remove(i.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            )}
+          </table>
         </div>
       </div>
     </div>

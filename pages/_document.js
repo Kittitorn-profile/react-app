@@ -14,7 +14,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="stylesheet" href="/static/css/style.css" />
           <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -35,34 +34,6 @@ class MyDocument extends Document {
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"
-          />
-          <link
-            rel="stylesheet"
-            href="/static/vendor/node_modules/bootstrap/dist/css/bootstrap.min.css"
-          />
-          <link
-            rel="stylesheet"
-            href="/static/vendor/node_modules/owl.carousel/dist/assets/owl.carousel.min.css"
-          />
-          <link
-            rel="stylesheet"
-            href="/static/vendor/node_modules/owl.carousel/dist/assets/owl.theme.default.min.css"
-          />
-          <script
-            type="text/javascript"
-            src="/static/vendor/node_modules/jquery/dist/jquery.min.js"
-          />
-          <script
-            type="text/javascript"
-            src="/static/vendor/node_modules/bootstrap/dist/js/bootstrap.min.js"
-          />
-          <script
-            type="text/javascript"
-            src="/static/vendor/node_modules/owl.carousel/dist/owl.carousel.min.js"
-          />
-          <script
-            type="text/javascript"
-            src="/static/vendor/node_modules/popper.js/dist/umd/popper.min.js"
           />
           {styleTags}
         </Head>
