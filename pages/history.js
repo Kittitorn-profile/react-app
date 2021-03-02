@@ -8,13 +8,13 @@ const History = () => {
 
   const handleClear = () => {
     dataContext.clearStore();
-    dataContext.getListAll();
+    dataContext.getListHistoryAll();
     location.reload();
   };
 
   useEffect(() => {
-    dataContext.getListAll();
-  }, []);
+    dataContext.getListHistoryAll();
+  }, [dataContext]);
 
   return (
     <div className={styles.layout}>
@@ -60,10 +60,10 @@ const History = () => {
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            {dataContext.list && (
+            {dataContext.listTodoStore && (
               <tbody>
-                {dataContext.list.length > 0 &&
-                  dataContext.list.map((i, index) => (
+                {dataContext.listTodoStore &&
+                  dataContext.listTodoStore.map((i, index) => (
                     <tr>
                       <th scope="row">{i.id}</th>
                       <td colSpan="2">{i.name}</td>
@@ -82,7 +82,6 @@ const History = () => {
                   ))}
               </tbody>
             )}
-            {console.log("dataContext 2", dataContext.listHistory)}
           </table>
         </div>
       </div>

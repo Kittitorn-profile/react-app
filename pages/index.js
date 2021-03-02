@@ -8,22 +8,42 @@ const Home = () => {
   const dataContext = useContext(DataContext);
   const [text, setText] = useState("");
   const [textSearch, setTextSearch] = useState("");
+  const [lastItem, setLastItem] = useState();
 
   const handleSearch = (value) => {
     dataContext.searchStore(value);
+    dataContext.getListAll();
   };
 
-  const handleRemove = (id) => {
-    dataContext.remove(id);
+  const handleRemove = async (id) => {
+    await dataContext.remove(id);
+    dataContext.getListAll();
+    location.reload();
   };
 
-  const handleAdd = (value, id) => {
+  const handleAdd = (value) => {
     if (value) {
-      const time = moment().format();
-      dataContext.addList(value, id, time);
+      if (dataContext.list && dataContext.list.length > 0) {
+        const lastItem =
+          dataContext.list.length !== 0 &&
+          dataContext.list[dataContext.list.length - 1];
+        dataContext.addList(value, lastItem.id + 1);
+      } else {
+        dataContext.addList(value, 1);
+      }
     }
     setText("");
   };
+
+  const handleClear = () => {
+    dataContext.clearStore();
+    dataContext.getListHistoryAll();
+    location.reload();
+  };
+
+  useEffect(() => {
+    dataContext.getListAll();
+  }, [dataContext]);
 
   return (
     <div className={styles.layout}>
@@ -47,7 +67,7 @@ const Home = () => {
                     type="button"
                     onClick={() => handleSearch(textSearch)}
                   >
-                    Search
+                    Search ccc
                   </button>
                 </div>
               </div>
@@ -70,10 +90,19 @@ const Home = () => {
                   className="btn btn-primary w-100 "
                   type="button"
                   onClick={() => {
-                    handleAdd(text, dataContext.list.length);
+                    handleAdd(text);
                   }}
                 >
                   Add +
+                </button>
+              </div>
+              <div className="col-2 pr-2 w-100">
+                <button
+                  class="btn btn-outline-secondary w-100"
+                  type="button"
+                  onClick={handleClear}
+                >
+                  Clear
                 </button>
               </div>
             </div>
@@ -109,7 +138,7 @@ const Home = () => {
                         <button
                           type="button"
                           className="btn btn-danger"
-                          onClick={() => dataContext.remove(i.id)}
+                          onClick={() => handleRemove(i.id)}
                         >
                           Delete
                         </button>
